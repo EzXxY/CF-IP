@@ -149,7 +149,7 @@ scan_ports(file_path)
 # 测速时不能开代理，要测试本机连接的真实速度
 python SpeedTest.py
 
-# 冗余的 txt 转为对人类可视化及其友好的筛选干净的 csv
+# 冗余的 txt 转为对人类可视化极其友好的筛选干净的 csv
 python filter.py
 ```
 
