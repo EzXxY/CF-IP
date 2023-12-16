@@ -32,11 +32,9 @@ masscan 149.62.46.0/24 149.62.47.0/24 157.119.100.0/24 157.119.101.0/24 -p0-6553
 
 ---
 
-> # 如何自己找优质线路 CIDR 格式的 IP 地址呢？
+>  如何自己找优质线路 CIDR 格式的 IP 地址呢？
 
-&emsp;&emsp;用 ipinfo.io 查厂商的 ASN 编号即可，比如这个搬瓦工 HK85 的 ASN 是 AS9312，那么查询他家所有 IP 段的网址为：[https://ipinfo.io/AS9312]
-(https://ipinfo.io/AS9312)，只知道某家的一个测试 IP，可以来我搭建的批量查 IP 的网站查询他家的 ASN 值：[https://ip.ezxxy.work](https://ip.ezxxy.work)。因为我的网页是用 VUE 写的，所以第一次加载会稍微慢一点，以后的加载就很快，哈哈。如果想要看他家 IPv4 的上游关系图表，链接在这里：[https://bgp.he.net/AS9312#_graph4]
-(https://bgp.he.net/AS9312#_graph4)。
+&emsp;&emsp;用 ipinfo.io 查厂商的 ASN 编号即可，比如这个搬瓦工 HK85 的 ASN 是 AS9312，那么查询他家所有 IP 段的网址为：[ipinfo.io/AS9312](https://ipinfo.io/AS9312)，只知道某家的一个测试 IP，可以来我搭建的批量查 IP 的网站查询他家的 ASN 值：[ip.ezxxy.work](https://ip.ezxxy.work)。因为我的网页是用 VUE 写的，所以第一次加载会稍微慢一点，以后的加载就很快，哈哈。如果想要看他家 IPv4 的上游关系图表，链接在这里：[bgp.he.net/AS9312#_graph4](https://bgp.he.net/AS9312#_graph4)。
 
 &emsp;&emsp;这就是 **搬瓦工HK85 ASN9312** 现阶段的 IPv4 地址范围和其他托管域。
 
@@ -74,7 +72,7 @@ python txt_2_csv.py ./06-提取反代了CF的ip及端口.txt ./07-提取反代�
 
 ---
 
-&emsp;&emsp;这个 Python 文件是在给扫描得到的 .xml 经过转化、排序为 **05-可视化扫描结果.csv** 这一文件的每一个  **IP**  和  **端口号**  并行发送 http 请求（每 1.51 秒并行发送 100 个请求并处理），请求的链接为 **“http://IP:port/cdn-cgi/trace”** ，如果得到了这个端口反代了 CloudFlare 的 CDN，则记录在 **06-提取反代了CF的ip及端口.txt** 文件中，如果请求超过了 1.5 秒没有响应或者不是反代了 CF 的 IP及端口，则丢弃。实测处理 160000 行 IP 和 端口 的 csv 文件，需要一个小时左右，6000 行的只需要不到 3 分钟。以下是详细的 Python 文件，懂的可以简单看看，并按照自己的意愿修改这些参数。
+&emsp;&emsp;这个 Python 文件是在给扫描得到的 .xml 经过转化、排序为 **05-可视化扫描结果.csv** 这一文件的每一个  **IP**  和  **端口号**  并行发送 http 请求（每 1.51 秒并行发送 100 个请求并处理），请求的链接为 **http://IP:port/cdn-cgi/trace** ，如果得到了这个端口反代了 CloudFlare 的 CDN，则记录在 **06-提取反代了CF的ip及端口.txt** 文件中，如果请求超过了 1.5 秒没有响应或者不是反代了 CF 的 IP及端口，则丢弃。实测处理 160000 行 IP 和 端口 的 csv 文件，需要一个小时左右，6000 行的只需要不到 3 分钟。以下是详细的 Python 文件，懂的可以简单看看，并按照自己的意愿修改这些参数。
 
  **【request.py】** 
 
