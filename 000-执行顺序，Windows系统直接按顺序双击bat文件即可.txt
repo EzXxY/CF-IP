@@ -1,0 +1,21 @@
+# 第一步：将扫描到的 IP 段下的开放端口情况可视化排序为 csv 文件
+python xml_to_csv_parser_updated_no_duplicates.py ./ ./05-可视化扫描结果.csv
+
+# 第二步：测试端口是否为反代时，建议开代理测试
+python request.py
+
+# 第三步：将反代了 CF 的 ip 及端口提取成 csv 表（这一步可以跳过）
+python txt_2_csv.py ./06-提取反代了CF的ip及端口.txt ./07-提取反代了CF的ip及端口.csv
+
+# 第四步：测速时不能开代理，要测试本机连接的真实速度
+python SpeedTest.py
+
+# 第五步：将最终的测速结果可视化排序为 csv 文件
+python filter.py
+
+
+
+##########################==测速链接==###########################
+SpeedTest.py 文件中目前使用的测速链接如下，如果哪天不能用了，请换成自己的测速链接
+
+https://cloudflare.cdn.openbsd.org/pub/OpenBSD/7.3/src.tar.gz
