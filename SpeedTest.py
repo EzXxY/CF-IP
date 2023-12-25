@@ -8,7 +8,7 @@ def run_command(ip_port: str, output_file: str) -> None:
     ip, port = ip_port.split(':')
     
     # 【！！！如果哪天下面这个测速链接不能用了，请换成自己的测速链接！！！】
-    command = f"CloudflareST.exe -url https://cloudflare.cdn.openbsd.org/pub/OpenBSD/7.3/src.tar.gz -o "" -tl 5000 -dn 20 -p 20 -ip {ip} -tp {port}"
+    command = f"CloudflareST.exe -ip {ip} -tp {port} -url https://cloudflare.cdn.openbsd.org/pub/OpenBSD/7.3/src.tar.gz -o "" -tl 5000 -dn 20 -p 20"
     
     with open(output_file, "w") as file:
         process = subprocess.Popen(command, shell=True, stdout=file, stderr=subprocess.STDOUT,
