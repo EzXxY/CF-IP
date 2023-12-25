@@ -14,11 +14,11 @@ def check_port(ip: str, port: int) -> str:
     返回:
     表示结果的字符串（'https_error' 或 'timeout'）。
     """
-    url = f"http://{ip}:{port}"
+    url = f"http://{ip}:{port}/cdn-cgi/trace"
     try:
         # 禁用重定向，并设置超时为 1.5 秒
         response = requests.get(url, timeout=1.5, allow_redirects=False)
-        if "<center>The plain HTTP request was sent to HTTPS port</center>" in response.text:
+        if ("400 The plain HTTP request was sent to HTTPS port" in response.text and "cloudflare" in response.text) or "visit_scheme=http" in response.text:
             return 'https_error'
         return None
     except requests.exceptions.Timeout:
