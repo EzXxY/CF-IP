@@ -93,11 +93,11 @@ def check_port(ip: str, port: int) -> str:
     返回:
     表示结果的字符串（'https_error' 或 'timeout'）。
     """
-    url = f"http://{ip}:{port}"
+    url = f"http://{ip}:{port}/cdn-cgi/trace"
     try:
         # 禁用重定向，并设置超时为 1.5 秒
         response = requests.get(url, timeout=1.5, allow_redirects=False)
-        if "<center>The plain HTTP request was sent to HTTPS port</center>" in response.text:
+        if ("400 The plain HTTP request was sent to HTTPS port" in response.text and "cloudflare" in response.text) or "visit_scheme=http" in response.text:
             return 'https_error'
         return None
     except requests.exceptions.Timeout:
@@ -139,7 +139,7 @@ scan_ports(file_path)
 
 # 4. 对找到的 IP:port 并行测速，寻找适合自己网站线路的反代 IP
 
-&emsp;&emsp;并行测速时使用的是开源的[CloudflareSpeedTest](https://github.com/XIU2/CloudflareSpeedTest)程序，如果是其他系统，请前往下载 v2.2.4 版本的程序文件并放置在我的这个文件夹内，如果是 Windows 系统，则可以直接使用。
+&emsp;&emsp;并行测速时使用的是开源的[CloudflareSpeedTest](https://github.com/XIU2/CloudflareSpeedTest)程序，如果是其他系统，请前往下载当前 v2.2.5 的最新版本程序文件并放置在此文件夹内，如果是 Windows 系统，则可以直接使用。
 
 &emsp;&emsp;如果是 Windows 用户，请直接按顺序双击 **03-开始针对性测速.bat** 和 **04-查看测试结果.bat** 稍等片刻即可看到 **08-针对性测速结果完整文件.txt** 和 **09-最终可视化测试结果.csv** 这两个文件了。
 
@@ -170,7 +170,7 @@ def run_command(ip_port: str, output_file: str) -> None:
     ip, port = ip_port.split(':')
     
     # 【！！！如果哪天下面这个测速链接不能用了，请换成自己的测速链接！！！】
-    command = f"CloudflareST.exe -url https://cloudflare.cdn.openbsd.org/pub/OpenBSD/7.3/src.tar.gz -o "" -tl 5000 -dn 20 -p 20 -ip {ip} -tp {port}"
+    command = f"CloudflareST.exe -ip {ip} -tp {port} -url https://cloudflare.cdn.openbsd.org/pub/OpenBSD/7.3/src.tar.gz -o "" -tl 5000 -dn 20 -p 20"
     
     with open(output_file, "w") as file:
         process = subprocess.Popen(command, shell=True, stdout=file, stderr=subprocess.STDOUT,
